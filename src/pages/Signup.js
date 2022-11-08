@@ -1,12 +1,14 @@
 
-import { Card, CardBody, CardHeader, Container, FormGroup, Input, Label,Form, Button } from "reactstrap";
+import { Card, CardBody, CardHeader, Container, FormGroup, Input, Label,Form, Button, Row, Col } from "reactstrap";
 import Base from "../components/Base";
 
 const Signup = () => {
     return (
         <Base>
       <Container>
-        <Card>
+        <Row className="mt-4">
+            <Col sm={{size:6,offset:3}}>
+            <Card color="dark" inverse>
         <CardHeader>
          Fill your information to register!!
         </CardHeader>
@@ -52,13 +54,15 @@ const Signup = () => {
             </FormGroup>
             <Container className="text-center">
 
-                <Button color="dark">Register</Button>
-                <Button color="secondary" type="reset" className="ms-2">Reset</Button>
+                <Button color="light" outline>Register</Button>
+                <Button color="secondary" outline type="reset" className="ms-2">Reset</Button>
             </Container>
         </Form>
 
         </CardBody>
         </Card>
+            </Col>
+        </Row>
       </Container>
         </Base>
     )
