@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Card, CardBody, CardHeader, Container, FormGroup, Input, Label,Form, Button, Row, Col } from "reactstrap";
 import Base from "../components/Base";
 import { signUp } from "../services/user-service";
-
+import {toast} from 'react-toastify';
 const Signup = () => {
 
     const [data,setData] = useState({
@@ -42,10 +42,13 @@ const Signup = () => {
         signUp(data).then((resp)=>{
             console.log(resp);
             console.log("success")
+            toast.success("User Registered successfully");
+            resetData();
 
         }).catch((error)=>{
             console.log(error)
             console.log("Error log")
+            toast.error("Error")
         })
 
     }
@@ -104,7 +107,7 @@ const Signup = () => {
                 id="about"
                 onChange={(e)=>handleChange(e,'about')}
                 value={data.about}
-                style={{height:"250px"}}
+                style={{height:"150px"}}
                 />
             </FormGroup>
             <Container className="text-center">
