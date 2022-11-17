@@ -2,15 +2,14 @@
 import { useState } from "react";
 import { Card, CardBody, CardHeader, Container, FormGroup, Input, Label,Form, Button, Row, Col, FormFeedback } from "reactstrap";
 import Base from "../components/Base";
-import { signUp } from "../services/user-service";
 import {toast} from 'react-toastify';
-const Signup = () => {
+import { sendSmsUrl } from "../services/user-service";
+const SendSms = () => {
 
     const [data,setData] = useState({
-        name: "",
-        email: "",
-        password: "",
-        about: "",
+        name: "pritesh",
+        contactNum: [9802608807,9821483502,9812909635],
+        eodMessage: "Good Evening Sir,\nToday's Day end operation has been completed successfully.\nGood Night & regards: "
     })
     
     const [error,setError] = useState({
@@ -26,17 +25,15 @@ const Signup = () => {
     const resetData =() =>{
         setData({
             name: "",
-            email: "",
-            password: "",
-            about: "",
+            contactNum: [],
+            eodMessage: "",
         });
     };
 
     const submitForm=(event)=>{
         console.log(data);
-        console.log(event);
         event.preventDefault();
-
+        data.eodMessage=data.eodMessage+data.name;
         if(error.isError){
             toast.error("For data invalid");
             setError({...error,isError:false})
@@ -47,15 +44,14 @@ const Signup = () => {
         //data validation
 
         //call server api for sending data
-        signUp(data).then((resp)=>{
+        sendSmsUrl(data).then((resp)=>{
             console.log(resp);
             console.log("success")
-            toast.success("User Registered successfully");
+            toast.success("EOD Sent successfully");
             resetData();
 
         }).catch((error)=>{
-            console.log(error);
-            toast.error(error.response.data.message);
+            console.log(error)
             console.log("Error log")
             //handle errors in proper way
             setError({
@@ -71,11 +67,11 @@ const Signup = () => {
         <Base>
       <Container>
         <Row className="mt-4">
-        { JSON.stringify(data) }
+        {/* { JSON.stringify(data) } */}
             <Col sm={{size:6,offset:3}}>
             <Card color="dark" inverse>
         <CardHeader>
-         Fill your information to register!!
+         Send Sms EOD Notification!!
         </CardHeader>
         <CardBody>
             {/* Creating Form */}
@@ -95,55 +91,41 @@ const Signup = () => {
                 {error.errors?.response?.data?.name}
                 </FormFeedback>
             </FormGroup>
+
              {/* Email Field */}
-              <FormGroup>
-                <Label for="email">Enter Email</Label>
+                      {/* <FormGroup>
+                <Label for="contactNum">Enter contactNum</Label>
                 <Input
-                type="email"
+                type="text"
                 placeholder="Enter here"
-                id="email"
-                onChange={(e)=>handleChange(e,'email')}
-                value={data.email}
-                invalid={error.errors?.response?.data?.email ? true: false}
+                id="contactNum"
+                onChange={(e)=>handleChange(e,'contactNum')}
+                value={data.contactNum}
+                invalid={error.errors?.response?.data?.contactNum ? true: false}
                 />
                 <FormFeedback>
-                    {error.errors?.response?.data?.email}
+                {error.errors?.response?.data?.contactNum}
                 </FormFeedback>
             </FormGroup>
-             {/* Password Field */}
-             <FormGroup>
-                <Label for="password">Enter Password</Label>
-                <Input
-                type="password"
-                placeholder="Enter here"
-                id="password"
-                onChange={(e)=>handleChange(e,'password')}
-                value={data.password}
-                invalid={error.errors?.response?.data?.password ? true: false}
-                />
-                <FormFeedback>
-                {error.errors?.response?.data?.password}
-                </FormFeedback>
-            </FormGroup>
-            {/* About Field */}
+
             <FormGroup>
-                <Label for="about">Enter About yourself</Label>
+                <Label for="eodMessage">Enter Message</Label>
                 <Input
-                type="textarea"
+                type="text"
                 placeholder="Enter here"
-                id="about"
-                onChange={(e)=>handleChange(e,'about')}
-                value={data.about}
-                invalid={error.errors?.response?.data?.about ? true: false}
-                style={{height:"150px"}}
+                id="eodMessage"
+                onChange={(e)=>handleChange(e,'eodMessage')}
+                value={data.eodMessage}
+                invalid={error.errors?.response?.data?.eodMessage ? true: false}
                 />
                 <FormFeedback>
-                {error.errors?.response?.data?.about}
+                {error.errors?.response?.data?.eodMessage}
                 </FormFeedback>
             </FormGroup>
+            */}
             <Container className="text-center">
 
-                <Button color="light" outline>Register</Button>
+                <Button color="light" outline>Send SMS</Button>
                 <Button onClick={resetData} color="secondary" outline type="reset" className="ms-2">Reset</Button>
             </Container>
         </Form>
@@ -157,4 +139,4 @@ const Signup = () => {
     )
 };
 
-export default Signup; 
+export default SendSms; 
