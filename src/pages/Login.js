@@ -5,8 +5,18 @@ import Base from "../components/Base";
 
 const Login = () => {
 
+    const [loginDetail,setLoginDetail] = useState({
+        username:'',
+        password:''
+    })
 
+    const handleChange = (event, field) => {
+        setLoginDetail({...loginDetail,[field]:event.target.value})
+    }
 
+    const handleFormSubmit = (event)=>{
+        event.preventDefault();
+    }
 
     return (
         <Base>
@@ -19,7 +29,7 @@ const Login = () => {
         </CardHeader>
         <CardBody>
             {/* Creating Form */}
-        <Form>
+        <Form onSubmit={handleFormSubmit}>
             {/* Email Field */}
             <FormGroup>
                 <Label for="email">Enter Email</Label>
@@ -27,6 +37,8 @@ const Login = () => {
                 type="text"
                 placeholder="Enter here"
                 id="email"
+                value={loginDetail.username}
+                onChange={(e)=> handleChange(e,'username')}
                 />
             </FormGroup>
              {/* Password Field */}
@@ -36,6 +48,9 @@ const Login = () => {
                 type="pasword"
                 placeholder="Enter here"
                 id="password"
+                value={loginDetail.password}
+                onChange={(e)=>handleChange(e,'password')}
+
                 />
             </FormGroup>
             
