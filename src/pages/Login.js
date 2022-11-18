@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { Card, CardBody, CardHeader, Container, FormGroup, Input, Label,Form, Button, Row, Col } from "reactstrap";
 
 import Base from "../components/Base";
+import { loginUser } from "../services/user-service";
 
 const Login = () => {
 
@@ -14,8 +16,33 @@ const Login = () => {
         setLoginDetail({...loginDetail,[field]:event.target.value})
     }
 
+    const handleReset =() =>{
+        setLoginDetail({
+            username:'',
+            password:''
+        })
+    }
+
     const handleFormSubmit = (event)=>{
         event.preventDefault();
+
+        //validation
+        if(loginDetail.username.trim()==='' || loginDetail.password.trim()===''){
+            toast.error("Username or Password is required!!");
+            return;
+        }
+
+        //submit the data to server to generate token
+        loginUser(loginDetail).then((jwtTokenData)=>{
+            console.log("user login::")
+            console.log(jwtTokenData);
+        }).catch(error=>{
+            console.log(error);
+            if(error.response.status==400 || error.response.status==404){
+                toast.error(error.response.data.messag)
+            }else{toast.error("Something went wrong on server");
+        }
+        })
     }
 
     return (
@@ -57,7 +84,7 @@ const Login = () => {
             <Container className="text-center">
 
                 <Button color="light" outline>Login</Button>
-                <Button color="secondary" outline type="reset" className="ms-2">Reset</Button>
+                <Button onClick={handleReset} color="secondary" outline type="reset" className="ms-2">Reset</Button>
             </Container>
         </Form>
 
