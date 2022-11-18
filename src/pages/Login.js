@@ -38,7 +38,7 @@ const Login = () => {
             console.log("user login::")
             console.log(data);
             doLogin(data,()=>{
-                
+
             });
             toast.success("Login Success"); 
         }).catch(error=>{
@@ -77,7 +77,7 @@ const Login = () => {
               <FormGroup>
                 <Label for="password">Enter Password</Label>
                 <Input
-                type="pasword"
+                type="password"
                 placeholder="Enter here"
                 id="password"
                 value={loginDetail.password}
