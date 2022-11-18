@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { Card, CardBody, CardHeader, Container, FormGroup, Input, Label,Form, Button, Row, Col } from "reactstrap";
+import { doLogin } from "../auth";
 
 import Base from "../components/Base";
 import { loginUser } from "../services/user-service";
@@ -36,7 +37,10 @@ const Login = () => {
         loginUser(loginDetail).then((data)=>{
             console.log("user login::")
             console.log(data);
-            toast.success("Login Success");
+            doLogin(data,()=>{
+                
+            });
+            toast.success("Login Success"); 
         }).catch(error=>{
             console.log(error);
             if(error.response.status==400 || error.response.status==404){
