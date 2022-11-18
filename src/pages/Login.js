@@ -33,13 +33,14 @@ const Login = () => {
         }
 
         //submit the data to server to generate token
-        loginUser(loginDetail).then((jwtTokenData)=>{
+        loginUser(loginDetail).then((data)=>{
             console.log("user login::")
-            console.log(jwtTokenData);
+            console.log(data);
+            toast.success("Login Success");
         }).catch(error=>{
             console.log(error);
             if(error.response.status==400 || error.response.status==404){
-                toast.error(error.response.data.messag)
+                toast.error(error.response.data.message);
             }else{toast.error("Something went wrong on server");
         }
         })
