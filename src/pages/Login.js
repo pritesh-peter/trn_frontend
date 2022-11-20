@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Card, CardBody, CardHeader, Container, FormGroup, Input, Label,Form, Button, Row, Col } from "reactstrap";
 import { doLogin } from "../auth";
@@ -7,6 +8,8 @@ import Base from "../components/Base";
 import { loginUser } from "../services/user-service";
 
 const Login = () => {
+
+    const navigate = useNavigate();
 
     const [loginDetail,setLoginDetail] = useState({
         username:'',
@@ -38,7 +41,7 @@ const Login = () => {
             console.log("user login::")
             console.log(data);
             doLogin(data,()=>{
-
+            navigate("/user/dashboard")
             });
             toast.success("Login Success"); 
         }).catch(error=>{
