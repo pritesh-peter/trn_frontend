@@ -5,7 +5,7 @@ import { sendSms } from "./helper";
 export const signUp=async (user)=> {
     console.log(user.name);
     if(user.name===""){(user.name=null)}
-    return await myAxios.post('/api/v1/auth/register', user).then((response)=>response.data);
+    return await myAxios.post('/auth/register', user).then((response)=>response.data);
 }
 
 
@@ -43,5 +43,5 @@ export const sendSmsUrl = async (eodMsg) =>{
 }
 
 export const loginUser = async (loginDetail)=> {
-    return await myAxios.post('/api/v1/auth/login',loginDetail).then((response)=>response.data)
+    return await myAxios.post('/auth/login',loginDetail).then((response)=>response.data)
 }

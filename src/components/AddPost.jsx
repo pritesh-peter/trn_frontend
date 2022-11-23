@@ -1,7 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button, Card, CardBody, Container, Form, Input, Label, Placeholder } from 'reactstrap'
+import { loadAllCategories } from '../services/category-service'
 
 const AddPost = () =>{
+
+    useEffect( 
+        ()=>{
+
+            loadAllCategories().then((data)=>{
+                console.log(data)
+            }).catch(error=>{
+                console.log(error)
+            })
+    },[])
+
+
+
+
   return (
     <div className="wrapper">
 
