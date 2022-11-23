@@ -33,7 +33,7 @@ const AddPost = () =>{
                         <Input
                          type="text"
                           id="title"
-                          Placeholder="Enter here"
+                          placeholder="Enter here"
                           className='rounded-0'
                           />
                     </div>
@@ -42,7 +42,7 @@ const AddPost = () =>{
                         <Input
                          type="textarea"
                           id="content"
-                          Placeholder="Enter here"
+                          placeholder="Enter here"
                           className='rounded-0'
                           style={{height:'300px'}}
                           />
@@ -52,7 +52,7 @@ const AddPost = () =>{
                         <Input
                          type="select"
                           id="category"
-                          Placeholder="Enter here"
+                          placeholder="Enter here"
                           className='rounded-0'
                           />
                     </div>
