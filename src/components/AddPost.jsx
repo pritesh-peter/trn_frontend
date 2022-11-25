@@ -45,6 +45,19 @@ const contentFieldChanged = (data) => {
 //create post function
 const createPost =(event) =>{
     event.preventDefault();
+    if(post.title.trim()===''){
+        alert("post title is required!!")
+        return;
+    }
+    if(post.content.trim()===''){
+        alert("post content is required!!")
+        return;
+    }
+    if(post.categoryId.trim()===''){
+        alert("select some category !!")
+        return;
+    }
+
 
 }
   return (
@@ -88,7 +101,9 @@ const createPost =(event) =>{
                           className='rounded-0'
                           name="categoryId"
                           onChange={fieldChanged}
+                          defaultValue={0}
                           >
+                            <option disabled value={0}>--Select Category--</option>
                             {
                                 categories.map((category)=>(
                                    <option value={category.categoryId} key={category.categoryId}>
