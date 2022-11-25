@@ -6,9 +6,19 @@ import JoditEditor from "jodit-react";
 const AddPost = () =>{
 
     const editor = useRef(null)
-    const [content,setContent]= useState('')
+    // const [content,setContent]= useState('')
 
     const [categories,setCategories] = useState([])
+
+    const [post,setPost]=useState({
+        title:'',
+        content:'',
+        categoryId:''
+    })
+
+    // const config = {
+    //     placeholder:"Start typing..."
+    // }
     useEffect( 
         ()=>{
 
@@ -21,8 +31,22 @@ const AddPost = () =>{
     },[])
 
 
+//field changed function
+const fieldChanged=(event)=>{
+    // console.log(event)
+    setPost({...post,[event.target.name]:event.target.value})
 
+}
 
+const contentFieldChanged = (data) => {
+    setPost({...post,'content':data})
+}
+
+//create post function
+const createPost =(event) =>{
+    event.preventDefault();
+
+}
   return (
     <div className="wrapper">
 
@@ -31,8 +55,9 @@ const AddPost = () =>{
         <Card className='shadow-sm border-0 mt-2'>
 
             <CardBody>
+                {JSON.stringify(post)}
                 <h3>What going in you mind ?</h3>
-                <Form>
+                <Form onSubmit={createPost}>
 
                     <div className='my-3'>
                         <Label for="title">Post Title</Label>
@@ -41,22 +66,17 @@ const AddPost = () =>{
                           id="title"
                           placeholder="Enter here"
                           className='rounded-0'
+                          name="title"
+                          onChange={fieldChanged}
                           />
                     </div>
                     <div className='my-3'>
                         <Label for="content">Post Content</Label>
-                        {/* <Input
-                         type="textarea"
-                          id="content"
-                          placeholder="Enter here"
-                          className='rounded-0'
-                          style={{height:'300px'}}
-                          /> */}
-
                          <JoditEditor
                          ref={editor}
-                         value={content}
-                         onChange={newContent=>setContent(newContent)}
+                         value={post.content}
+                        //  config={config}
+                         onChange={newContent=>contentFieldChanged(newContent)}
                          />
                     </div>
                     <div className='my-3'>
@@ -66,6 +86,8 @@ const AddPost = () =>{
                           id="category"
                           placeholder="Enter here"
                           className='rounded-0'
+                          name="categoryId"
+                          onChange={fieldChanged}
                           >
                             {
                                 categories.map((category)=>(
