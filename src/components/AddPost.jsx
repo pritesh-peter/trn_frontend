@@ -2,6 +2,9 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Button, Card, CardBody, Container, Form, Input, Label, Placeholder } from 'reactstrap'
 import { loadAllCategories } from '../services/category-service'
 import JoditEditor from "jodit-react";
+import { createPost } from '../services/post-service';
+import { getCurrentUserDetail } from '../auth';
+import { toast } from 'react-toastify';
 
 const AddPost = () =>{
 
@@ -10,10 +13,12 @@ const AddPost = () =>{
 
     const [categories,setCategories] = useState([])
 
+    const [user,setUser] = useState(undefined)
+
     const [post,setPost]=useState({
         title:'',
         content:'',
-        categoryId:''
+        categoryId:[0]
     })
 
     // const config = {
@@ -21,9 +26,9 @@ const AddPost = () =>{
     // }
     useEffect( 
         ()=>{
-
+            setUser(getCurrentUserDetail())
             loadAllCategories().then((data)=>{
-                console.log(data)
+                // console.log(data)
                 setCategories(data)
             }).catch(error=>{
                 console.log(error)
@@ -37,26 +42,43 @@ const fieldChanged=(event)=>{
     setPost({...post,[event.target.name]:event.target.value})
 
 }
+const clearPost =() => {
+    setPost({
+        title:'',
+        content:'',
+        categoryId:[0]
+    })
+}
 
 const contentFieldChanged = (data) => {
     setPost({...post,'content':data})
 }
 
 //create post function
-const createPost =(event) =>{
+const submitPost =(event) =>{
     event.preventDefault();
     if(post.title.trim()===''){
-        alert("post title is required!!")
+        toast.error("post title is required!!")
         return;
     }
     if(post.content.trim()===''){
-        alert("post content is required!!")
+        toast.error("post content is required!!")
         return;
     }
     if(post.categoryId.trim()===''){
-        alert("select some category !!")
+        toast.error("select some category !!")
         return;
     }
+
+    //submit the form to server
+    post['userId'] = user.id
+    createPost(post).then(data=>{
+        toast.success("Post Created")
+        clearPost();
+    }).catch((error)=>{
+        toast.error("We are having some error !!")
+    })
+
 
 
 }
@@ -68,9 +90,9 @@ const createPost =(event) =>{
         <Card className='shadow-sm border-0 mt-2'>
 
             <CardBody>
-                {JSON.stringify(post)}
+                {/* {JSON.stringify(post)} */}
                 <h3>What going in you mind ?</h3>
-                <Form onSubmit={createPost}>
+                <Form onSubmit={submitPost}>
 
                     <div className='my-3'>
                         <Label for="title">Post Title</Label>
@@ -80,6 +102,7 @@ const createPost =(event) =>{
                           placeholder="Enter here"
                           className='rounded-0'
                           name="title"
+                          value={post.title}
                           onChange={fieldChanged}
                           />
                     </div>
@@ -100,8 +123,9 @@ const createPost =(event) =>{
                           placeholder="Enter here"
                           className='rounded-0'
                           name="categoryId"
+                          value={post.categoryId}
                           onChange={fieldChanged}
-                          defaultValue={0}
+                          selected={0}
                           >
                             <option disabled value={0}>--Select Category--</option>
                             {
@@ -116,7 +140,7 @@ const createPost =(event) =>{
 
                     <Container className='text-center'>
                         <Button color='primary' className='rounded-0'>Create Post</Button>
-                        <Button color='danger' className='rounded-0 ms-2'>Reset Content</Button>
+                        <Button onClick={clearPost} color='danger' className='rounded-0 ms-2'>Reset Content</Button>
                     </Container>
                 </Form>
             </CardBody>

@@ -10,13 +10,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import UserDashboard from './pages/user-route/UserDashboard';
 import PrivateRoute from './components/PrivateRoute';
 import ProfileInfo from './pages/user-route/ProfileInfo';
+import NewFeed from './components/NewFeed';
 
 function App() {
   return (
     <BrowserRouter>
     <ToastContainer position='bottom-center'/>
     <Routes>
-      <Route path="/" element={<Home/>}/>
+      <Route path="/" element={<NewFeed/>}/>
       <Route path="/login" element={<Login/>} />
       <Route path="/signup" element={<Signup/>} />
       <Route path="/about" element={<About/>} />
