@@ -10,7 +10,8 @@ const NewFeed= () => {
         totalPages:'',
         totalElements:'',
         pageSize:'',
-        lastPage:false
+        lastPage:false,
+        pageNumber:''
     })
 
     useEffect(()=>{
@@ -40,7 +41,7 @@ const NewFeed= () => {
           }
           <Container className='mt-3'>
             <Pagination>
-                <PaginationItem>
+                <PaginationItem disabled={postContent.pageNumber==0}>
                     <PaginationLink previous>
 
                     </PaginationLink>
@@ -48,7 +49,7 @@ const NewFeed= () => {
                {
                 [...Array(postContent.totalPages)].map((item, index)=>(
 
-                   <PaginationItem key={index}>
+                   <PaginationItem  active={index===postContent.pageNumber} key={index}>
                         <PaginationLink>
                             {index+1}
                         </PaginationLink>
@@ -57,7 +58,7 @@ const NewFeed= () => {
                }
 
 
-                <PaginationItem>
+                <PaginationItem disabled={postContent.lastPage}>
                     <PaginationLink next>
 
                     </PaginationLink>

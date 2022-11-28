@@ -8,7 +8,7 @@ export const createPost = (postData) =>{
 
 //get all posts
 
-export const  loadAllPosts = async () => {
+export const  loadAllPosts = async (pageNumber,pageSize) => {
 
-    return await myAxios.get('/posts').then(response=>response.data)
+    return await myAxios.get(`/posts&pageNumber=${pageNumber}&pageSize=${pageSize}`).then(response=>response.data)
 }
