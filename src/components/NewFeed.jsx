@@ -18,16 +18,16 @@ const NewFeed= () => {
 
     useEffect(()=>{
         //load all posts from server
-        loadAllPosts(0,5).then((data)=>{
-            console.log(data);
-            setPostContent(data)
-        }).catch(error=>{
-            toast.error("Error in loading post")
-            console.log(error)
-        })
+       changePage(0)
     },[])
 
     const changePage=(pageNumber=0,pageSize=5)=>{
+
+        if(pageNumber>postContent.pageNumber && postContent.lastPage){
+            return;
+        }else if(pageNumber < postContent.pageNumber && postContent.pageNumber==0){
+            return
+        }
         loadAllPosts(pageNumber,pageSize).then(data=>{
             setPostContent(data)
             window.scroll(0,0)
@@ -54,7 +54,7 @@ const NewFeed= () => {
           }
           <Container className='mt-3'>
             <Pagination size='lg'>
-                <PaginationItem disabled={postContent.pageNumber==0}>
+                <PaginationItem onClick={()=>changePage(postContent.pageNumber-1)} disabled={postContent.pageNumber==0}>
                     <PaginationLink previous>
                     Previous
                     </PaginationLink>
@@ -71,7 +71,7 @@ const NewFeed= () => {
                }
 
 
-                <PaginationItem disabled={postContent.lastPage}>
+                <PaginationItem onClick={()=>changePage(postContent.pageNumber+1)} disabled={postContent.lastPage}>
                     <PaginationLink next>
                         Next
                     </PaginationLink>
