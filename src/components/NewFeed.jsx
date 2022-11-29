@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 import { Col, Container, Pagination, PaginationItem, PaginationLink, Row } from 'reactstrap'
 import { loadAllPosts } from '../services/post-service'
 import Post from './Post'
@@ -14,15 +15,27 @@ const NewFeed= () => {
         pageNumber:''
     })
 
+
     useEffect(()=>{
         //load all posts from server
-        loadAllPosts().then((data)=>{
+        loadAllPosts(0,5).then((data)=>{
             console.log(data);
             setPostContent(data)
         }).catch(error=>{
+            toast.error("Error in loading post")
             console.log(error)
         })
     },[])
+
+    const changePage=(pageNumber=0,pageSize=5)=>{
+        loadAllPosts(pageNumber,pageSize).then(data=>{
+            setPostContent(data)
+            window.scroll(0,0)
+        }).catch(error=>{
+            toast.error("Error in loading post")
+        })
+    }
+
 
   return (
     <div className='container-fluid'>
@@ -40,17 +53,17 @@ const NewFeed= () => {
             ))
           }
           <Container className='mt-3'>
-            <Pagination>
+            <Pagination size='lg'>
                 <PaginationItem disabled={postContent.pageNumber==0}>
                     <PaginationLink previous>
-
+                    Previous
                     </PaginationLink>
                 </PaginationItem>
                {
                 [...Array(postContent.totalPages)].map((item, index)=>(
 
-                   <PaginationItem  active={index===postContent.pageNumber} key={index}>
-                        <PaginationLink>
+                   <PaginationItem onClick={()=>changePage(index)} active={index===postContent.pageNumber} key={index}>
+                        <PaginationLink >
                             {index+1}
                         </PaginationLink>
                    </PaginationItem>
@@ -60,7 +73,7 @@ const NewFeed= () => {
 
                 <PaginationItem disabled={postContent.lastPage}>
                     <PaginationLink next>
-
+                        Next
                     </PaginationLink>
                 </PaginationItem>
                 
