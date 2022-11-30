@@ -11,6 +11,7 @@ import UserDashboard from './pages/user-route/UserDashboard';
 import PrivateRoute from './components/PrivateRoute';
 import ProfileInfo from './pages/user-route/ProfileInfo';
 import NewFeed from './components/NewFeed';
+import PostPage from './pages/PostPage';
 
 function App() {
   return (
@@ -21,6 +22,9 @@ function App() {
       <Route path="/login" element={<Login/>} />
       <Route path="/signup" element={<Signup/>} />
       <Route path="/about" element={<About/>} />
+      <Route path="/services" element={<Home/>} />
+      <Route path="/posts/:postId" element={<PostPage/>} />
+     
       {/* <Route path="/eodsms" element={<SendSms/>}/> */}
     
       <Route path="/user" element={<PrivateRoute/>}>

@@ -11,4 +11,10 @@ export const createPost = (postData) =>{
 export const  loadAllPosts = async (pageNumber,pageSize) => {
 
     return await myAxios.get(`/posts?pageNumber=${pageNumber}&pageSize=${pageSize}`).then(response=>response.data)
+};
+
+//load single post of given id
+export const loadPost = (postId) =>{
+    return myAxios.get('/posts/'+postId).then(response=>response.data)
 }
+
