@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { Card, CardBody, CardText, Col, Container, Row } from 'reactstrap'
 import Base from '../components/Base'
+import { BASE_URL } from '../services/helper'
 import { loadPost } from '../services/post-service'
 
 const PostPage = () => {
@@ -20,6 +21,10 @@ const PostPage = () => {
         })
 
     },[])
+
+    const printDate = (numbers) => {
+        return new Date(numbers).toLocaleString()
+    }
   return (
     <Base>
     <Container className='mt-4'>
@@ -28,11 +33,22 @@ const PostPage = () => {
 
         <Row>
             <Col md={{size:12}}>
-            <Card>
+            <Card className='mt-3'>
+                {
+                    (post) && (
                 <CardBody>
                     <CardText>
-                    </CardText>   
+                        Posted By <b>{post.user.name}</b> on <b>{printDate(post.addedDate)}</b>
+                    </CardText>
+                    <CardText className='mt-3'>
+                        <h3>{post.title}</h3>    
+                    </CardText>  
+                    <div className="image-container mt-3 container text-center" style={{maxWidth:'50%'}}>
+                    <img className="img-fluid" src={BASE_URL+'post/image/'+post.imageName} alt="" />   
+                    </div> 
                 </CardBody>
+  )
+}
             </Card>
             </Col>
         </Row>
