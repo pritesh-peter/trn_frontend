@@ -18,3 +18,7 @@ export const loadPost = (postId) =>{
     return myAxios.get('/posts/'+postId).then(response=>response.data)
 }
 
+//post comment in post
+export const createComment = (comment,postId)=>{
+    return privateAxios.post(`/post/${postId}/comment`,comment)
+}

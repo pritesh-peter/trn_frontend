@@ -4,14 +4,14 @@ import { toast } from 'react-toastify'
 import { Button, Card, CardBody, CardText, Col, Container, Input, Row } from 'reactstrap'
 import Base from '../components/Base'
 import { BASE_URL } from '../services/helper'
-import { loadPost } from '../services/post-service'
+import { createComment, loadPost } from '../services/post-service'
 
 const PostPage = () => {
 
     const {postId} = useParams()
     const [post,setPost] = useState(null)
     const [comment,setComment] = useState({
-        comment:''
+        content:''
     })
 
     useEffect(()=> {
@@ -27,6 +27,15 @@ const PostPage = () => {
 
     const printDate = (numbers) => {
         return new Date(numbers).toLocaleString()
+    }
+
+    const submitComment = () => {
+        createComment(comment,post.postId)
+        .then(data=>{
+        console.log(data)
+        }).catch(error=>{
+            console.log(error)
+        })
     }
   return (
     <Base>
@@ -88,9 +97,9 @@ const PostPage = () => {
                         type="textarea" 
                         placeholder='Enter comment here'
                         value={comment.comment}
-                        onChange={(event)=>setComment({comment:event.target.value})}
+                        onChange={(event)=>setComment({content:event.target.value})}
                         />
-                        <Button className='mt-2' color='primary'>Submit</Button>
+                        <Button onClick={submitComment} className='mt-2' color='primary'>Submit</Button>
                         </CardBody>
                        </Card>  
             </Col>
