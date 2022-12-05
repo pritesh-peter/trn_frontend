@@ -84,7 +84,12 @@ const PostPage = () => {
 
             <Card className='mt-4 border-0'>
                         <CardBody>
-                        <Input type="textarea" placeholder='Enter comment here'/>
+                        <Input 
+                        type="textarea" 
+                        placeholder='Enter comment here'
+                        value={comment.comment}
+                        onChange={(event)=>setComment({comment:event.target.value})}
+                        />
                         <Button className='mt-2' color='primary'>Submit</Button>
                         </CardBody>
                        </Card>  
