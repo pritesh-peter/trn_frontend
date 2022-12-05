@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { Card, CardBody, CardText, Col, Container, Input, Row } from 'reactstrap'
+import { Button, Card, CardBody, CardText, Col, Container, Input, Row } from 'reactstrap'
 import Base from '../components/Base'
 import { BASE_URL } from '../services/helper'
 import { loadPost } from '../services/post-service'
@@ -10,6 +10,9 @@ const PostPage = () => {
 
     const {postId} = useParams()
     const [post,setPost] = useState(null)
+    const [comment,setComment] = useState({
+        comment:''
+    })
 
     useEffect(()=> {
         //load post of postId
@@ -82,6 +85,7 @@ const PostPage = () => {
             <Card className='mt-4 border-0'>
                         <CardBody>
                         <Input type="textarea" placeholder='Enter comment here'/>
+                        <Button className='mt-2' color='primary'>Submit</Button>
                         </CardBody>
                        </Card>  
             </Col>
