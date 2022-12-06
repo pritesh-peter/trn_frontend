@@ -30,9 +30,19 @@ const PostPage = () => {
     }
 
     const submitComment = () => {
+        if(comment.content.trim()===''){
+            toast.error("comment required")
+            return
+        }
         createComment(comment,post.postId)
         .then(data=>{
         console.log(data)
+        toast.success("comment added ...")
+        setPost({
+            ...post,
+            comments:[...post.comments,data.data]
+        })
+        setComment({content:''})
         }).catch(error=>{
             console.log(error)
         })
@@ -96,7 +106,7 @@ const PostPage = () => {
                         <Input 
                         type="textarea" 
                         placeholder='Enter comment here'
-                        value={comment.comment}
+                        value={comment.content}
                         onChange={(event)=>setComment({content:event.target.value})}
                         />
                         <Button onClick={submitComment} className='mt-2' color='primary'>Submit</Button>
