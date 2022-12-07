@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { Button, Card, CardBody, CardText, Col, Container, Input, Row } from 'reactstrap'
+import { isLoggedIn } from '../auth'
 import Base from '../components/Base'
 import { BASE_URL } from '../services/helper'
 import { createComment, loadPost } from '../services/post-service'
@@ -30,6 +31,11 @@ const PostPage = () => {
     }
 
     const submitComment = () => {
+
+        if(!isLoggedIn()){
+            toast.error("Need to login first !!")
+            return
+        }
         if(comment.content.trim()===''){
             toast.error("comment required")
             return
