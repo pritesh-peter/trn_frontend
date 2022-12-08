@@ -52,7 +52,7 @@ const NewFeed= () => {
                 <Post post={post} key={post.postId}/>
             ))
           }
-          <Container className='mt-3'>
+          {/* <Container className='mt-3'>
             <Pagination size='lg'>
                 <PaginationItem onClick={()=>changePage(postContent.pageNumber-1)} disabled={postContent.pageNumber==0}>
                     <PaginationLink previous>
@@ -79,7 +79,9 @@ const NewFeed= () => {
                 
             </Pagination>
 
-          </Container>
+          </Container> */}
+
+          
             </Col>
             
         </Row>
