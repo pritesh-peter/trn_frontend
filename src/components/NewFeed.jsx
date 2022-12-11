@@ -3,6 +3,7 @@ import { toast } from 'react-toastify'
 import { Col, Container, Pagination, PaginationItem, PaginationLink, Row } from 'reactstrap'
 import { loadAllPosts } from '../services/post-service'
 import Post from './Post'
+import {InfiniteScroll} from 'react-infinite-scroll-component'
 
 const NewFeed= () => {
 
@@ -47,11 +48,17 @@ const NewFeed= () => {
                 }
             }>
             <h1>Blogs Count ({postContent?.totalElements})</h1>
-          {
+            <InfiniteScroll>
+          
+            {
             postContent.content.map((post)=>(
                 <Post post={post} key={post.postId}/>
             ))
           }
+
+            </InfiniteScroll>
+
+        
           {/* <Container className='mt-3'>
             <Pagination size='lg'>
                 <PaginationItem onClick={()=>changePage(postContent.pageNumber-1)} disabled={postContent.pageNumber==0}>
@@ -81,7 +88,7 @@ const NewFeed= () => {
 
           </Container> */}
 
-          
+
             </Col>
             
         </Row>
