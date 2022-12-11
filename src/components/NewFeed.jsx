@@ -3,7 +3,7 @@ import { toast } from 'react-toastify'
 import { Col, Container, Pagination, PaginationItem, PaginationLink, Row } from 'reactstrap'
 import { loadAllPosts } from '../services/post-service'
 import Post from './Post'
-import {InfiniteScroll} from 'react-infinite-scroll-component'
+import InfiniteScroll from 'react-infinite-scroll-component'
 
 const NewFeed= () => {
 
@@ -16,11 +16,12 @@ const NewFeed= () => {
         pageNumber:''
     })
 
+    const [currentPage,setCurrentPage] = useState(0)
 
     useEffect(()=>{
         //load all posts from server
-       changePage(0)
-    },[])
+       changePage(currentPage)
+    },[currentPage])
 
     const changePage=(pageNumber=0,pageSize=5)=>{
 
@@ -30,13 +31,25 @@ const NewFeed= () => {
             return
         }
         loadAllPosts(pageNumber,pageSize).then(data=>{
-            setPostContent(data)
-            window.scroll(0,0)
+            setPostContent({
+                content:[...postContent.content,...data.content],
+                totalPages:data.totalPages,
+                totalElements:data.totalElements,
+                pageSize:data.pageSize,
+                lastPage:data.lastPage,
+                pageNumber:data.pageNumber
+            })
+            // setPostContent(data)
+            // window.scroll(0,0)
         }).catch(error=>{
             toast.error("Error in loading post")
         })
     }
 
+    const changePageInfinite = () => {
+        console.log("Page changed")
+        setCurrentPage(currentPage+1)
+    }
 
   return (
     <div className='container-fluid'>
@@ -48,7 +61,17 @@ const NewFeed= () => {
                 }
             }>
             <h1>Blogs Count ({postContent?.totalElements})</h1>
-            <InfiniteScroll>
+            <InfiniteScroll
+                dataLength={postContent.content.length}
+                next={changePageInfinite}
+                hasMore={!postContent.lastPage}
+                loader={<h4>Loading...</h4>}
+                endMessage={
+                    <p style={{textAlign: 'center'}}>
+                        <b>Yay! You have seen it all</b>
+                    </p>
+                }
+            >
           
             {
             postContent.content.map((post)=>(
