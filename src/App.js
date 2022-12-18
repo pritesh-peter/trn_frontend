@@ -12,9 +12,11 @@ import PrivateRoute from './components/PrivateRoute';
 import ProfileInfo from './pages/user-route/ProfileInfo';
 import NewFeed from './components/NewFeed';
 import PostPage from './pages/PostPage';
+import UserProvider from './context/UserProvider';
 
 function App() {
   return (
+    <UserProvider>
     <BrowserRouter>
     <ToastContainer position='bottom-center'/>
     <Routes>
@@ -33,6 +35,7 @@ function App() {
         </Route>
     </Routes>
     </BrowserRouter>
+    </UserProvider>
     );
 }
 
