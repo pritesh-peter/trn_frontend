@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Button, Card, CardBody, Container, Form, Input, Label, Placeholder } from 'reactstrap'
 import { loadAllCategories } from '../services/category-service'
 import JoditEditor from "jodit-react";
-import { createPost } from '../services/post-service';
+import { createPost, uploadPostImage } from '../services/post-service';
 import { getCurrentUserDetail } from '../auth';
 import { toast } from 'react-toastify';
 
@@ -18,8 +18,10 @@ const AddPost = () =>{
     const [post,setPost]=useState({
         title:'',
         content:'',
-        categoryId:[0]
+        categoryId:''
     })
+
+    const [image,setImage] =useState(null)
 
     // const config = {
     //     placeholder:"Start typing..."
@@ -73,14 +75,23 @@ const submitPost =(event) =>{
     //submit the form to server
     post['userId'] = user.id
     createPost(post).then(data=>{
+
+        uploadPostImage(image,data.postId).then(data=>{
+            toast.success("Image Uploaded !!");
+        }).catch((error)=>{
+            toast.error("Error uploading Image");
+        })
+        
         toast.success("Post Created")
         clearPost();
     }).catch((error)=>{
         toast.error("We are having some error !!")
     })
+}
 
-
-
+const handleFileChange = (event) =>{
+    console.log(event.target.files[0])
+    setImage(event.target.files[0])
 }
   return (
     <div className="wrapper">
@@ -115,6 +126,13 @@ const submitPost =(event) =>{
                          onChange={newContent=>contentFieldChanged(newContent)}
                          />
                     </div>
+
+                    {/* file Field */}
+                    <div className="mt-3">
+                        <Label for="image">Select Post Banner</Label>
+                        <Input id="image" type='file' onChange={handleFileChange}/>
+                    </div>
+
                     <div className='my-3'>
                         <Label for="category">Post Category</Label>
                         <Input

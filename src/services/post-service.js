@@ -22,3 +22,15 @@ export const loadPost = (postId) =>{
 export const createComment = (comment,postId)=>{
     return privateAxios.post(`/post/${postId}/comment`,comment)
 }
+
+//upload post banner image
+export const uploadPostImage= async (image,postId)=>{
+    let formData = new FormData()
+    formData.append("image",image)
+    const response = await privateAxios.post(`/post/image/upload/${postId}`, formData,{
+        headers:{
+            'Content-Type':'multipart/form-data'
+        }
+        });
+    return response.data;
+}
