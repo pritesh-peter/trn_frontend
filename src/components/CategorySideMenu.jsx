@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { ListGroup, ListGroupItem } from 'reactstrap'
 import { loadAllCategories } from '../services/category-service'
@@ -18,12 +19,14 @@ function CategorySideMenu() {
   return (
     <div>
     <ListGroup>
-        <ListGroupItem action="true" className='border-0'>
+        <ListGroupItem tag={Link} to="/" action={true} className='border-0'>
             All Blogs
         </ListGroupItem>
-        <ListGroupItem action="true" className='border-0'>
-            Programming
-        </ListGroupItem>
+        {categories && categories.map((cat,index)=>{
+          return(  <ListGroupItem tag={Link} to={'/categories/'+cat.categoryId} className='border-0 shadow-0 mt-1' key={index} action={true}>
+                {cat.categoryTitle}
+            </ListGroupItem>
+        )})}
     </ListGroup>
     </div>
   )
