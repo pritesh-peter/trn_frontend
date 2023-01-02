@@ -34,3 +34,9 @@ export const uploadPostImage= async (image,postId)=>{
         });
     return response.data;
 }
+
+//get userWise Post
+export const loadPostUserWise =async (userId) =>{
+    const res = await privateAxios.get(`/user/${userId}/posts`);
+    return res.data;
+}

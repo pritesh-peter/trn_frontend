@@ -15,13 +15,14 @@ function Categories() {
     const {categoryId} = useParams()
 
     useEffect(()=>{
+        console.log(categoryId)
         loadPostCategoryWise(categoryId).then((data)=>{
                 setPost([...data])
         }).catch(error => {
             console.log(error)
             toast.error("error in loading posts")
         })
-    })
+    }, [categoryId])
 
   return (
     <Base>
@@ -31,6 +32,7 @@ function Categories() {
        <CategorySideMenu/>
        </Col>
        <Col md={10}>
+        <h1>Blogs Count ({post.length})</h1>
         {
             post && post.map((post, index) => {
                 return(
@@ -38,6 +40,7 @@ function Categories() {
                 )
             })
         }
+        {post.length<=0 ?<h1>No post in this category</h1>:""}
        </Col>  
      </Row>
     </Container>
