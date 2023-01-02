@@ -13,6 +13,7 @@ import ProfileInfo from './pages/user-route/ProfileInfo';
 import NewFeed from './components/NewFeed';
 import PostPage from './pages/PostPage';
 import UserProvider from './context/UserProvider';
+import Categories from './pages/Categories';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
       <Route path="/about" element={<About/>} />
       <Route path="/services" element={<Home/>} />
       <Route path="/posts/:postId" element={<PostPage/>} />
+      <Route path='/categories/:categoryId' element={<Categories/>}/>
      
       {/* <Route path="/eodsms" element={<SendSms/>}/> */}
     
