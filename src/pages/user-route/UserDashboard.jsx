@@ -5,6 +5,7 @@ import { Container } from "reactstrap";
 import { getCurrentUserDetail } from "../../auth";
 import AddPost from "../../components/AddPost";
 import Base from "../../components/Base";
+import Post from "../../components/Post";
 import { loadPostUserWise } from "../../services/post-service";
 
 const UserDashboard = () => {
@@ -29,6 +30,13 @@ const UserDashboard = () => {
         <Base>
         <Container>
             <AddPost/>
+
+            <h1 className="my-3">Posts Count : ({post.length})</h1>
+            {post.map((post, index)=>{
+                return(
+                    <Post post={post} key={index}/>
+                )
+            })}
         </Container>
         </Base>
     )
