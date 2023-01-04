@@ -8,22 +8,36 @@ import { loadPostCategoryWise } from '../services/category-service';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import Post from '../components/Post';
+import { deletePostService } from '../services/post-service';
 
 function Categories() {
 
-    const [post, setPost] = useState([])
+    const [posts, setPosts] = useState([])
     const {categoryId} = useParams()
 
     useEffect(()=>{
         console.log(categoryId)
         loadPostCategoryWise(categoryId).then((data)=>{
-                setPost([...data])
+                setPosts([...data])
         }).catch(error => {
             console.log(error)
             toast.error("error in loading posts")
         })
     }, [categoryId])
 
+    function deletePost(post){
+
+        deletePostService(post.postId).then(res=>{
+            console.log(res)
+            toast.success("post deleted successfully")
+            let newPostContents = posts.filter(p=>p.postId !=  post.postId)
+            setPosts([...newPostContents])
+        }).catch(error=>{
+            console.log(error)
+            toast.error("Error in deleting post")
+        })
+
+    }
   return (
     <Base>
     <Container className="mt-3">
@@ -32,15 +46,15 @@ function Categories() {
        <CategorySideMenu/>
        </Col>
        <Col md={10}>
-        <h1>Blogs Count ({post.length})</h1>
+        <h1>Blogs Count ({posts.length})</h1>
         {
-            post && post.map((post, index) => {
+            posts.map((p1, index) => {
                 return(
-                    <Post key={index} post={post}/>
+                    <Post deletePost={deletePost} key={index} post={p1}/>
                 )
             })
         }
-        {post.length<=0 ?<h1>No post in this category</h1>:""}
+        {posts.length<=0 ?<h1>No post in this category</h1>:""}
        </Col>  
      </Row>
     </Container>

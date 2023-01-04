@@ -11,7 +11,7 @@ import { deletePostService, loadPostUserWise } from "../../services/post-service
 const UserDashboard = () => {
     const [user, setUser] = useState({})
 
-    const [post, setPost] = useState([])
+    const [posts, setPosts] = useState([])
 
     useEffect(()=>{
         setUser(getCurrentUserDetail())
@@ -21,7 +21,7 @@ const UserDashboard = () => {
 
     function loadPostData(){
         loadPostUserWise(getCurrentUserDetail().id).then(data =>{
-            setPost([...data])
+            setPosts([...data])
             console.log(data)
         }).catch(error=>{
             console.log(error)
@@ -35,7 +35,8 @@ const UserDashboard = () => {
         deletePostService(post.postId).then(res=>{
             console.log(res)
             toast.success("post deleted successfully")
-            loadPostData()
+            let newPosts = posts.filter(p=>p.postId!=post.postId)
+            setPosts([...newPosts])
         }).catch(error=>{
             console.log(error)
             toast.error("Error in deleting post")
@@ -48,8 +49,8 @@ const UserDashboard = () => {
         <Container>
             <AddPost/>
 
-            <h1 className="my-3">Posts Count : ({post.length})</h1>
-            {post.map((post, index)=>{
+            <h1 className="my-3">Posts Count : ({posts.length})</h1>
+            {posts.map((post, index)=>{
                 return(
                     <Post post={post} key={index} deletePost={deletePost}/>
                 )
