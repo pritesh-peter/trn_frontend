@@ -40,3 +40,8 @@ export const loadPostUserWise =async (userId) =>{
     const res = await privateAxios.get(`/user/${userId}/posts`);
     return res.data;
 }
+
+//delete post
+export function deletePostService(postId){
+    return privateAxios.delete(`/posts/${postId}`).then(res=>res.data)
+}

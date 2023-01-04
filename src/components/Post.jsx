@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { Button, Card, CardBody, CardText } from 'reactstrap'
 import { getCurrentUserDetail, isLoggedIn } from '../auth'
 
-const Post= ({post={id:-1,title:"This is default title",content:"This is default content"}}) => {
+const Post= ({post={id:-1,title:"This is default title",content:"This is default content"},deletePost}) => {
   
   const [user, setUser] = useState(null)
 
@@ -27,7 +27,7 @@ const Post= ({post={id:-1,title:"This is default title",content:"This is default
        <div>
         <Link className='btn btn-secondary border-0' to={'/posts/'+post.postId}>Read More</Link>
         
-        {isLoggedIn && (user && user.id ===post.user.id ? <Button color='danger' className='ms-2'>Delete</Button>:'')}
+        {isLoggedIn && (user && user.id ===post.user.id ? <Button onClick={()=>deletePost(post)} color='danger' className='ms-2'>Delete</Button>:'')}
         
        </div>
         </CardBody>
