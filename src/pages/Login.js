@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -5,9 +6,12 @@ import { Card, CardBody, CardHeader, Container, FormGroup, Input, Label,Form, Bu
 import { doLogin } from "../auth";
 
 import Base from "../components/Base";
+import userContext from "../context/userContext";
 import { loginUser } from "../services/user-service";
 
 const Login = () => {
+
+    const userContextData = useContext(userContext);
 
     const navigate = useNavigate();
 
@@ -41,6 +45,10 @@ const Login = () => {
             console.log("user login::")
             console.log(data);
             doLogin(data,()=>{
+                userContextData.setUser({
+                    data:data,
+                    login:true
+                })
             navigate("/user/dashboard")
             });
             toast.success("Login Success"); 
