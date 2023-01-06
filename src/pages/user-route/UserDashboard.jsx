@@ -17,7 +17,7 @@ const UserDashboard = () => {
         setUser(getCurrentUserDetail())
         console.log(user)
         loadPostData()
-    },[])
+    },[setPosts])
 
     function loadPostData(){
         loadPostUserWise(getCurrentUserDetail().id).then(data =>{
