@@ -29,7 +29,10 @@ function UpdateBlog() {
             })
             //load the blog from database
         loadPost(blogId).then(data=>{
-            setPost({...data})
+            setPost({...data,categoryId:data.category.categoryId})
+        }).catch(error=>{
+            console.log(error);
+            toast.error("error in loading the blog")
         })
         
         },[])
@@ -47,6 +50,17 @@ function UpdateBlog() {
             }
         },[post])
 
+        const handleChange = (event, fieldName) => {
+            setPost({...post,[fieldName]:event.target.value
+            })
+        }
+
+        const updatePost = (event) => {
+            event.preventDefault()
+            console.log(post);
+
+        }
+
         const updateHtml =() => {
             return(
                 <div className="wrapper">
@@ -58,7 +72,7 @@ function UpdateBlog() {
                     <CardBody>
                         {/* {JSON.stringify(post)} */}
                         <h3>Update your post</h3>
-                        <Form onSubmit={''}>
+                        <Form onSubmit={updatePost}>
         
                             <div className='my-3'>
                                 <Label for="title">Post Title</Label>
@@ -69,7 +83,7 @@ function UpdateBlog() {
                                   className='rounded-0'
                                   name="title"
                                   value={post.title}
-                                  onChange={''}
+                                  onChange={(event)=>handleChange(event,'title')}
                                   />
                             </div>
                             <div className='my-3'>
@@ -78,7 +92,7 @@ function UpdateBlog() {
                                  ref={editor}
                                  value={post.content}
                                 //  config={config}
-                                 onChange={''}
+                                 onChange={newContent => setPost({...post, content: newContent})}
                                  />
                             </div>
         
@@ -91,14 +105,13 @@ function UpdateBlog() {
                             <div className='my-3'>
                                 <Label for="category">Post Category</Label>
                                 <Input
-                                 type="select"
+                                  type="select"
                                   id="category"
                                   placeholder="Enter here"
                                   className='rounded-0'
                                   name="categoryId"
                                   value={post.categoryId}
-                                  onChange={''}
-                                  selected={0}
+                                  onChange={(event)=>handleChange(event,'categoryId')}
                                   >
                                     <option disabled value={0}>--Select Category--</option>
                                     {
@@ -124,7 +137,9 @@ function UpdateBlog() {
     
   return (
     <Base>
-    {blogId}
+    <Container>
+    {post && updateHtml()}
+    </Container>
     </Base>
   )
 }

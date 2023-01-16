@@ -46,7 +46,7 @@ const Login = () => {
             console.log(data);
             doLogin(data,()=>{
                 userContextData.setUser({
-                    data:data,
+                    data:data.user,
                     login:true
                 })
             navigate("/user/dashboard")

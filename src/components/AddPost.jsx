@@ -141,9 +141,8 @@ const handleFileChange = (event) =>{
                           placeholder="Enter here"
                           className='rounded-0'
                           name="categoryId"
-                          value={post.categoryId}
                           onChange={fieldChanged}
-                          selected={0}
+                          defaultValue={0}
                           >
                             <option disabled value={0}>--Select Category--</option>
                             {
