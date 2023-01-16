@@ -32,7 +32,7 @@ const Post= ({post={id:-1,title:"This is default title",content:"This is default
         <Link className='btn btn-secondary border-0' to={'/posts/'+post.postId}>Read More</Link>
         
         {userContextData.user.login && (user && user.id ===post.user.id ? <Button onClick={()=>deletePost(post)} color='danger' className='ms-2'>Delete</Button>:'')}
-        {userContextData.user.login && (user && user.id ===post.user.id ? <Button color='warning' className='ms-2'>Update</Button>:'')}
+        {userContextData.user.login && (user && user.id ===post.user.id ? <Button tag={Link} to={`/user/update-blog/${post.postId}`} color='warning' className='ms-2'>Update</Button>:'')}
 
        </div>
         </CardBody>
