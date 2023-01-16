@@ -48,5 +48,5 @@ export function deletePostService(postId){
 
 //update post
 export function updatePostService(post,postId){
-    return privateAxios.put('',post).then(res=>res.data);   
+    return privateAxios.put(`/posts/${postId}`,post).then(res=>res.data);   
 }

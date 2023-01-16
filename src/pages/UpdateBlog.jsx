@@ -9,7 +9,7 @@ import { toast } from 'react-toastify'
 import Base from '../components/Base'
 import userContext from '../context/userContext'
 import { loadAllCategories } from '../services/category-service'
-import { loadPost } from '../services/post-service'
+import { loadPost, updatePostService } from '../services/post-service'
 
 
 function UpdateBlog() {
@@ -58,7 +58,14 @@ function UpdateBlog() {
         const updatePost = (event) => {
             event.preventDefault()
             console.log(post);
-
+            updatePostService({...post,category:{categoryId:post.categoryId}},post.postId)
+            .then(res=>{
+                console.log(res)
+                toast.success("Post Updated");
+            }).catch(error=>{
+                console.log(error);
+                toast.error("Error in updating post")
+            })
         }
 
         const updateHtml =() => {
